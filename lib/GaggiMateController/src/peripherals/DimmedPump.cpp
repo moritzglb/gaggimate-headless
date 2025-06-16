@@ -17,7 +17,7 @@ void DimmedPump::setup() {
 }
 
 void DimmedPump::loop() {
-    _currentPressure = _pressureSensor->getPressure();
+    _currentPressure = _pressureSensor->getRawPressure();
     updatePower();
 }
 

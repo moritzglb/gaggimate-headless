@@ -119,6 +119,15 @@ void NimBLEServerController::sendAutotuneResult(float Kp, float Ki, float Kd) {
     }
 }
 
+void NimBLEServerController::sendVolumetricMeasurement(float value) {
+    if (deviceConnected) {
+        char data[8];
+        snprintf(data, sizeof(data), "%.2f", value);
+        volumetricMeasurementChar->setValue(data);
+        volumetricMeasurementChar->notify();
+    }
+}
+
 void NimBLEServerController::registerOutputControlCallback(const simple_output_callback_t &callback) {
     outputControlCallback = callback;
 }

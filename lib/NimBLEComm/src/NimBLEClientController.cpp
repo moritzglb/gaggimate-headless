@@ -93,6 +93,7 @@ bool NimBLEClientController::connectToServer() {
     pidControlChar = pRemoteService->getCharacteristic(NimBLEUUID(PID_CONTROL_CHAR_UUID));
     infoChar = pRemoteService->getCharacteristic(NimBLEUUID(INFO_UUID));
     pressureScaleChar = pRemoteService->getCharacteristic(NimBLEUUID(PRESSURE_SCALE_UUID));
+    volumetricTareChar = pRemoteService->getCharacteristic(NimBLEUUID(VOLUMETRIC_TARE_UUID));
 
     // Obtain the remote notify characteristic and subscribe to it
 
@@ -124,6 +125,11 @@ bool NimBLEClientController::connectToServer() {
     if (sensorChar != nullptr && sensorChar->canNotify()) {
         sensorChar->subscribe(true, std::bind(&NimBLEClientController::notifyCallback, this, std::placeholders::_1,
                                               std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+    }
+
+    volumetricMeasurementChar = pRemoteService->getCharacteristic(NimBLEUUID(VOLUMETRIC_MEASUREMENT_UUID));
+    if (volumetricMeasurementChar != nullptr && volumetricMeasurementChar->canNotify()) {
+        volumetricMeasurementChar->subscribe(true, std::bind(&NimBLEClientController::notifyCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     }
 
     delay(500);
