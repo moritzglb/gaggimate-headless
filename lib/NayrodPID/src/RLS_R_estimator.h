@@ -27,7 +27,7 @@ class RLSFilter {
               float Rmax = INFINITY, float measurement_noise_var = 3e-4f, float forgetting_factor = 0.85f,
               float numerical_epsilon = 1e-12f, float dt = 0.03f)
         : R_est(initial_R), R_est_init(initial_R), P_cov(initial_Pcov), P_cov_init(initial_Pcov), R_min(Rmin), R_max(Rmax),
-          meas_noise_var(measurement_noise_var), lambda(forgetting_factor), epsilon(numerical_epsilon), _dt(dt) {}
+          meas_noise_var(measurement_noise_var), lambda(forgetting_factor), epsilon(numerical_epsilon), _dt(dt), R_est_prev(0) {}
 
     /**
      * @brief Met à jour l'estimation de R en fonction des nouvelles mesures
