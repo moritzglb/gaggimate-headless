@@ -129,7 +129,9 @@ bool NimBLEClientController::connectToServer() {
 
     volumetricMeasurementChar = pRemoteService->getCharacteristic(NimBLEUUID(VOLUMETRIC_MEASUREMENT_UUID));
     if (volumetricMeasurementChar != nullptr && volumetricMeasurementChar->canNotify()) {
-        volumetricMeasurementChar->subscribe(true, std::bind(&NimBLEClientController::notifyCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+        volumetricMeasurementChar->subscribe(true,
+                                             std::bind(&NimBLEClientController::notifyCallback, this, std::placeholders::_1,
+                                                       std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     }
 
     delay(500);

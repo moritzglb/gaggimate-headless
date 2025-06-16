@@ -43,6 +43,7 @@ void DimmedPump::loopTask(void *arg) {
 }
 
 void DimmedPump::updatePower() {
+    _pressureController.update();
     switch (_mode) {
     case ControlMode::PRESSURE:
         _power = calculatePowerForPressure(_targetPressure, _currentPressure, _flowLimit);
@@ -54,7 +55,6 @@ void DimmedPump::updatePower() {
         break;
 
     case ControlMode::POWER:
-        _psm.set(static_cast<int>(_power));
         break;
     }
 
@@ -68,7 +68,6 @@ float DimmedPump::calculateFlowRate(float pressure) const {
 }
 
 float DimmedPump::calculatePowerForPressure(float targetPressure, float currentPressure, float flowLimit) {
-    _pressureController.update();
     return _controllerPower;
 }
 

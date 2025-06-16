@@ -63,6 +63,7 @@ void PressureController::virtualScale() {
         coffeeOutput += flowPerSecond * _dt;
         retroCoffeeOutputPressureHistory = 0.0f;
     } else {
+        flowPerSecond = 0.0f;
         if (isPrefReached)
             retroCoffeeOutputPressureHistory += _filteredPressureSensor;
     }
