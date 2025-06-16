@@ -46,7 +46,7 @@ class PressureController {
     // === Paramètres système ===
     const float _Co = 1e-8f; // Compliance (m^3/bar)
     float _R = 5e6f;
-    const float _Q0 = 15e-6f;  // Débit max à P = 0 (m^3/s)
+    const float _Q0 = 14e-6f;  // Débit max à P = 0 (m^3/s)
     const float _Pmax = 15.0f; // Pression max (bar)
 
     // === Paramètres Controller ===

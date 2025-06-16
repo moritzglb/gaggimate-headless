@@ -32,7 +32,10 @@ float DimmedPump::getCoffeeVolume() { return _pressureController.getcoffeeOutput
 
 float DimmedPump::getFlow() { return _pressureController.getFlowPerSecond(); }
 
-void DimmedPump::tare() { _pressureController.tare(); }
+void DimmedPump::tare() {
+    _pressureController.tare();
+    _pressureController.reset();
+}
 
 void DimmedPump::loopTask(void *arg) {
     auto *pump = static_cast<DimmedPump *>(arg);
