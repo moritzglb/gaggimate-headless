@@ -270,14 +270,11 @@ void Controller::startProcess(Process *process) {
         return;
     processCompleted = false;
     this->currentProcess = process;
+    pluginManager->trigger("controller:process:start");
     updateLastAction();
 }
 
 int Controller::getTargetTemp() {
-    if (isAutotuning()) {
-        return 93;
-    }
-
     switch (mode) {
     case MODE_BREW:
     case MODE_GRIND:
@@ -474,10 +471,10 @@ void Controller::deactivate() {
     currentProcess = nullptr;
     if (lastProcess->getType() == MODE_BREW) {
         pluginManager->trigger("controller:brew:end");
-    }
-    if (lastProcess->getType() == MODE_GRIND) {
+    } else if (lastProcess->getType() == MODE_GRIND) {
         pluginManager->trigger("controller:grind:end");
     }
+    pluginManager->trigger("controller:process:end");
     updateLastAction();
 }
 

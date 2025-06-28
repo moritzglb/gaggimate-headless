@@ -7,8 +7,6 @@
 #include "ui_helpers.h"
 
 ///////////////////// VARIABLES ////////////////////
-void Heating_Animation(lv_obj_t *TargetObject, int delay);
-void steamPreparing_Animation(lv_obj_t *TargetObject, int delay);
 
 // SCREEN: ui_InitScreen
 void ui_InitScreen_screen_init(void);
@@ -22,6 +20,7 @@ lv_obj_t *ui_InitScreen_mainLabel;
 void ui_ProfileScreen_screen_init(void);
 void ui_event_ProfileScreen(lv_event_t *e);
 lv_obj_t *ui_ProfileScreen;
+lv_obj_t *ui_ProfileScreen_dials;
 void ui_event_ProfileScreen_ImgButton1(lv_event_t *e);
 lv_obj_t *ui_ProfileScreen_ImgButton1;
 lv_obj_t *ui_ProfileScreen_contentPanel;
@@ -42,7 +41,6 @@ void ui_event_ProfileScreen_nextProfileBtn(lv_event_t *e);
 lv_obj_t *ui_ProfileScreen_nextProfileBtn;
 void ui_event_ProfileScreen_chooseButton(lv_event_t *e);
 lv_obj_t *ui_ProfileScreen_chooseButton;
-lv_obj_t *ui_ProfileScreen_dials;
 // CUSTOM VARIABLES
 lv_obj_t *uic_ProfileScreen_dials_tempTarget;
 lv_obj_t *uic_ProfileScreen_dials_tempGauge;
@@ -54,6 +52,7 @@ lv_obj_t *uic_ProfileScreen_dials_tempText;
 // SCREEN: ui_MenuScreen
 void ui_MenuScreen_screen_init(void);
 lv_obj_t *ui_MenuScreen;
+lv_obj_t *ui_MenuScreen_dials;
 void ui_event_MenuScreen_standbyButton(lv_event_t *e);
 lv_obj_t *ui_MenuScreen_standbyButton;
 lv_obj_t *ui_MenuScreen_contentPanel1;
@@ -65,7 +64,6 @@ void ui_event_MenuScreen_waterBtn(lv_event_t *e);
 lv_obj_t *ui_MenuScreen_waterBtn;
 void ui_event_MenuScreen_grindBtn(lv_event_t *e);
 lv_obj_t *ui_MenuScreen_grindBtn;
-lv_obj_t *ui_MenuScreen_dials;
 // CUSTOM VARIABLES
 lv_obj_t *uic_MenuScreen_dials_tempTarget;
 lv_obj_t *uic_MenuScreen_dials_tempGauge;
@@ -78,6 +76,7 @@ lv_obj_t *uic_MenuScreen_dials_tempText;
 void ui_BrewScreen_screen_init(void);
 void ui_event_BrewScreen(lv_event_t *e);
 lv_obj_t *ui_BrewScreen;
+lv_obj_t *ui_BrewScreen_dials;
 void ui_event_BrewScreen_ImgButton5(lv_event_t *e);
 lv_obj_t *ui_BrewScreen_ImgButton5;
 lv_obj_t *ui_BrewScreen_contentPanel4;
@@ -111,7 +110,6 @@ lv_obj_t *ui_BrewScreen_upDurationButton;
 void ui_event_BrewScreen_downDurationButton(lv_event_t *e);
 lv_obj_t *ui_BrewScreen_downDurationButton;
 lv_obj_t *ui_BrewScreen_Image4;
-lv_obj_t *ui_BrewScreen_dials;
 // CUSTOM VARIABLES
 lv_obj_t *uic_BrewScreen_dials_tempTarget;
 lv_obj_t *uic_BrewScreen_dials_tempGauge;
@@ -120,54 +118,30 @@ lv_obj_t *uic_BrewScreen_dials_pressureGauge;
 lv_obj_t *uic_BrewScreen_dials_pressureText;
 lv_obj_t *uic_BrewScreen_dials_tempText;
 
-// SCREEN: ui_SteamScreen
-void ui_SteamScreen_screen_init(void);
-void ui_event_SteamScreen(lv_event_t *e);
-lv_obj_t *ui_SteamScreen;
-void ui_event_SteamScreen_ImgButton6(lv_event_t *e);
-lv_obj_t *ui_SteamScreen_ImgButton6;
-lv_obj_t *ui_SteamScreen_contentPanel5;
-lv_obj_t *ui_SteamScreen_mainLabel5;
-lv_obj_t *ui_SteamScreen_goButton;
-void ui_event_SteamScreen_downTempButton(lv_event_t *e);
-lv_obj_t *ui_SteamScreen_downTempButton;
-void ui_event_SteamScreen_upTempButton(lv_event_t *e);
-lv_obj_t *ui_SteamScreen_upTempButton;
-lv_obj_t *ui_SteamScreen_targetTemp;
-lv_obj_t *ui_SteamScreen_Image9;
-lv_obj_t *ui_SteamScreen_dials;
+// SCREEN: ui_SimpleProcessScreen
+void ui_SimpleProcessScreen_screen_init(void);
+void ui_event_SimpleProcessScreen(lv_event_t *e);
+lv_obj_t *ui_SimpleProcessScreen;
+lv_obj_t *ui_SimpleProcessScreen_dials;
+void ui_event_SimpleProcessScreen_ImgButton6(lv_event_t *e);
+lv_obj_t *ui_SimpleProcessScreen_ImgButton6;
+lv_obj_t *ui_SimpleProcessScreen_contentPanel5;
+lv_obj_t *ui_SimpleProcessScreen_mainLabel5;
+void ui_event_SimpleProcessScreen_goButton(lv_event_t *e);
+lv_obj_t *ui_SimpleProcessScreen_goButton;
+void ui_event_SimpleProcessScreen_downTempButton(lv_event_t *e);
+lv_obj_t *ui_SimpleProcessScreen_downTempButton;
+void ui_event_SimpleProcessScreen_upTempButton(lv_event_t *e);
+lv_obj_t *ui_SimpleProcessScreen_upTempButton;
+lv_obj_t *ui_SimpleProcessScreen_targetTemp;
+lv_obj_t *ui_SimpleProcessScreen_Image9;
 // CUSTOM VARIABLES
-lv_obj_t *uic_SteamScreen_dials_tempTarget;
-lv_obj_t *uic_SteamScreen_dials_tempGauge;
-lv_obj_t *uic_SteamScreen_dials_pressureTarget;
-lv_obj_t *uic_SteamScreen_dials_pressureGauge;
-lv_obj_t *uic_SteamScreen_dials_pressureText;
-lv_obj_t *uic_SteamScreen_dials_tempText;
-
-// SCREEN: ui_WaterScreen
-void ui_WaterScreen_screen_init(void);
-void ui_event_WaterScreen(lv_event_t *e);
-lv_obj_t *ui_WaterScreen;
-void ui_event_WaterScreen_ImgButton7(lv_event_t *e);
-lv_obj_t *ui_WaterScreen_ImgButton7;
-lv_obj_t *ui_WaterScreen_contentPanel6;
-lv_obj_t *ui_WaterScreen_mainLabel6;
-void ui_event_WaterScreen_goButton(lv_event_t *e);
-lv_obj_t *ui_WaterScreen_goButton;
-void ui_event_WaterScreen_downTempButton(lv_event_t *e);
-lv_obj_t *ui_WaterScreen_downTempButton;
-void ui_event_WaterScreen_upTempButton(lv_event_t *e);
-lv_obj_t *ui_WaterScreen_upTempButton;
-lv_obj_t *ui_WaterScreen_targetTemp;
-lv_obj_t *ui_WaterScreen_Image10;
-lv_obj_t *ui_WaterScreen_dials;
-// CUSTOM VARIABLES
-lv_obj_t *uic_WaterScreen_dials_tempTarget;
-lv_obj_t *uic_WaterScreen_dials_tempGauge;
-lv_obj_t *uic_WaterScreen_dials_pressureTarget;
-lv_obj_t *uic_WaterScreen_dials_pressureGauge;
-lv_obj_t *uic_WaterScreen_dials_pressureText;
-lv_obj_t *uic_WaterScreen_dials_tempText;
+lv_obj_t *uic_SimpleProcessScreen_dials_tempTarget;
+lv_obj_t *uic_SimpleProcessScreen_dials_tempGauge;
+lv_obj_t *uic_SimpleProcessScreen_dials_pressureTarget;
+lv_obj_t *uic_SimpleProcessScreen_dials_pressureGauge;
+lv_obj_t *uic_SimpleProcessScreen_dials_pressureText;
+lv_obj_t *uic_SimpleProcessScreen_dials_tempText;
 
 // SCREEN: ui_StandbyScreen
 void ui_StandbyScreen_screen_init(void);
@@ -186,6 +160,7 @@ lv_obj_t *ui_StandbyScreen_Image3;
 void ui_StatusScreen_screen_init(void);
 void ui_event_StatusScreen(lv_event_t *e);
 lv_obj_t *ui_StatusScreen;
+lv_obj_t *ui_StatusScreen_dials;
 void ui_event_StatusScreen_ImgButton8(lv_event_t *e);
 lv_obj_t *ui_StatusScreen_ImgButton8;
 lv_obj_t *ui_StatusScreen_contentPanel2;
@@ -203,7 +178,6 @@ lv_obj_t *ui_StatusScreen_brewBar;
 lv_obj_t *ui_StatusScreen_labelContainer;
 lv_obj_t *ui_StatusScreen_brewLabel;
 lv_obj_t *ui_StatusScreen_brewVolume;
-lv_obj_t *ui_StatusScreen_dials;
 // CUSTOM VARIABLES
 lv_obj_t *uic_StatusScreen_dials_tempTarget;
 lv_obj_t *uic_StatusScreen_dials_tempGauge;
@@ -216,6 +190,7 @@ lv_obj_t *uic_StatusScreen_dials_tempText;
 void ui_GrindScreen_screen_init(void);
 void ui_event_GrindScreen(lv_event_t *e);
 lv_obj_t *ui_GrindScreen;
+lv_obj_t *ui_GrindScreen_dials;
 void ui_event_GrindScreen_ImgButton2(lv_event_t *e);
 lv_obj_t *ui_GrindScreen_ImgButton2;
 lv_obj_t *ui_GrindScreen_contentPanel7;
@@ -234,7 +209,6 @@ void ui_event_GrindScreen_timedButton(lv_event_t *e);
 lv_obj_t *ui_GrindScreen_timedButton;
 void ui_event_GrindScreen_volumetricButton(lv_event_t *e);
 lv_obj_t *ui_GrindScreen_volumetricButton;
-lv_obj_t *ui_GrindScreen_dials;
 // CUSTOM VARIABLES
 lv_obj_t *uic_GrindScreen_dials_tempTarget;
 lv_obj_t *uic_GrindScreen_dials_tempGauge;
@@ -265,6 +239,7 @@ const lv_img_dsc_t *ui_imgset_1010926578[1] = {&ui_img_2044104741};
 const lv_img_dsc_t *ui_imgset_1155213431[1] = {&ui_img_545340440};
 const lv_img_dsc_t *ui_imgset_524469952[2] = {&ui_img_1765671371, &ui_img_207915003};
 const lv_img_dsc_t *ui_imgset_648927478[1] = {&ui_img_340148213};
+const lv_img_dsc_t *ui_imgset_616600488[1] = {&ui_img_1220767159};
 const lv_img_dsc_t *ui_imgset_690294202[1] = {&ui_img_1732953241};
 const lv_img_dsc_t *ui_imgset_1252186405[1] = {&ui_img_1951499226};
 const lv_img_dsc_t *ui_imgset_2074400918[1] = {&ui_img_364513079};
@@ -279,45 +254,6 @@ const lv_img_dsc_t *ui_imgset_506671969[1] = {&ui_img_783005998};
 #endif
 
 ///////////////////// ANIMATIONS ////////////////////
-void Heating_Animation(lv_obj_t *TargetObject, int delay) {
-    ui_anim_user_data_t *PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
-    PropertyAnimation_0_user_data->target = TargetObject;
-    PropertyAnimation_0_user_data->val = -1;
-    lv_anim_t PropertyAnimation_0;
-    lv_anim_init(&PropertyAnimation_0);
-    lv_anim_set_time(&PropertyAnimation_0, 1000);
-    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
-    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_opacity);
-    lv_anim_set_values(&PropertyAnimation_0, 0, 255);
-    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_in_out);
-    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
-    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
-    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
-    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
-    lv_anim_set_repeat_count(&PropertyAnimation_0, LV_ANIM_REPEAT_INFINITE);
-    lv_anim_set_repeat_delay(&PropertyAnimation_0, 1000);
-    lv_anim_set_early_apply(&PropertyAnimation_0, false);
-    lv_anim_start(&PropertyAnimation_0);
-    ui_anim_user_data_t *PropertyAnimation_1_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
-    PropertyAnimation_1_user_data->target = TargetObject;
-    PropertyAnimation_1_user_data->val = -1;
-    lv_anim_t PropertyAnimation_1;
-    lv_anim_init(&PropertyAnimation_1);
-    lv_anim_set_time(&PropertyAnimation_1, 1000);
-    lv_anim_set_user_data(&PropertyAnimation_1, PropertyAnimation_1_user_data);
-    lv_anim_set_custom_exec_cb(&PropertyAnimation_1, _ui_anim_callback_set_opacity);
-    lv_anim_set_values(&PropertyAnimation_1, 255, 0);
-    lv_anim_set_path_cb(&PropertyAnimation_1, lv_anim_path_ease_in_out);
-    lv_anim_set_delay(&PropertyAnimation_1, delay + 1000);
-    lv_anim_set_deleted_cb(&PropertyAnimation_1, _ui_anim_callback_free_user_data);
-    lv_anim_set_playback_time(&PropertyAnimation_1, 0);
-    lv_anim_set_playback_delay(&PropertyAnimation_1, 0);
-    lv_anim_set_repeat_count(&PropertyAnimation_1, LV_ANIM_REPEAT_INFINITE);
-    lv_anim_set_repeat_delay(&PropertyAnimation_1, 1000);
-    lv_anim_set_early_apply(&PropertyAnimation_1, false);
-    lv_anim_start(&PropertyAnimation_1);
-}
-void steamPreparing_Animation(lv_obj_t *TargetObject, int delay) {}
 
 ///////////////////// FUNCTIONS ////////////////////
 void ui_event_InitScreen(lv_event_t *e) {
@@ -501,7 +437,7 @@ void ui_event_BrewScreen_downDurationButton(lv_event_t *e) {
     }
 }
 
-void ui_event_SteamScreen(lv_event_t *e) {
+void ui_event_SimpleProcessScreen(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if (event_code == LV_EVENT_GESTURE && lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
@@ -510,7 +446,7 @@ void ui_event_SteamScreen(lv_event_t *e) {
     }
 }
 
-void ui_event_SteamScreen_ImgButton6(lv_event_t *e) {
+void ui_event_SimpleProcessScreen_ImgButton6(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if (event_code == LV_EVENT_CLICKED) {
@@ -518,7 +454,15 @@ void ui_event_SteamScreen_ImgButton6(lv_event_t *e) {
     }
 }
 
-void ui_event_SteamScreen_downTempButton(lv_event_t *e) {
+void ui_event_SimpleProcessScreen_goButton(lv_event_t *e) {
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if (event_code == LV_EVENT_CLICKED) {
+        onSimpleProcessToggle(e);
+    }
+}
+
+void ui_event_SimpleProcessScreen_downTempButton(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if (event_code == LV_EVENT_CLICKED) {
@@ -526,53 +470,11 @@ void ui_event_SteamScreen_downTempButton(lv_event_t *e) {
     }
 }
 
-void ui_event_SteamScreen_upTempButton(lv_event_t *e) {
+void ui_event_SimpleProcessScreen_upTempButton(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if (event_code == LV_EVENT_CLICKED) {
         onSteamTempRaise(e);
-    }
-}
-
-void ui_event_WaterScreen(lv_event_t *e) {
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if (event_code == LV_EVENT_GESTURE && lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
-        lv_indev_wait_release(lv_indev_get_act());
-        _ui_screen_change(&ui_MenuScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_MenuScreen_screen_init);
-        onMenuClick(e);
-    }
-}
-
-void ui_event_WaterScreen_ImgButton7(lv_event_t *e) {
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if (event_code == LV_EVENT_CLICKED) {
-        onMenuClick(e);
-    }
-}
-
-void ui_event_WaterScreen_goButton(lv_event_t *e) {
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if (event_code == LV_EVENT_CLICKED) {
-        onWaterToggle(e);
-    }
-}
-
-void ui_event_WaterScreen_downTempButton(lv_event_t *e) {
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if (event_code == LV_EVENT_CLICKED) {
-        onWaterTempLower(e);
-    }
-}
-
-void ui_event_WaterScreen_upTempButton(lv_event_t *e) {
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if (event_code == LV_EVENT_CLICKED) {
-        onWaterTempRaise(e);
     }
 }
 

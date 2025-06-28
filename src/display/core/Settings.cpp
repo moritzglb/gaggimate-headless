@@ -368,6 +368,6 @@ void Settings::loopTask(void *arg) {
     auto *settings = static_cast<Settings *>(arg);
     while (true) {
         settings->doSave();
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }

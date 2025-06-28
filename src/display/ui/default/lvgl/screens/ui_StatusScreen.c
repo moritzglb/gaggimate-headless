@@ -14,6 +14,10 @@ void ui_StatusScreen_screen_init(void) {
     ui_object_set_themeable_style_property(ui_StatusScreen, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BG_OPA,
                                            _ui_theme_alpha_Dark);
 
+    ui_StatusScreen_dials = ui_dials_create(ui_StatusScreen);
+    lv_obj_set_x(ui_StatusScreen_dials, 0);
+    lv_obj_set_y(ui_StatusScreen_dials, 0);
+
     ui_StatusScreen_ImgButton8 = lv_imgbtn_create(ui_StatusScreen);
     lv_imgbtn_set_src(ui_StatusScreen_ImgButton8, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_295763949, NULL);
     lv_obj_set_width(ui_StatusScreen_ImgButton8, 40);
@@ -21,10 +25,8 @@ void ui_StatusScreen_screen_init(void) {
     lv_obj_set_x(ui_StatusScreen_ImgButton8, 0);
     lv_obj_set_y(ui_StatusScreen_ImgButton8, 210);
     lv_obj_set_align(ui_StatusScreen_ImgButton8, LV_ALIGN_CENTER);
-    ui_object_set_themeable_style_property(ui_StatusScreen_ImgButton8, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_OUTLINE_COLOR,
-                                           _ui_theme_color_Dark);
-    ui_object_set_themeable_style_property(ui_StatusScreen_ImgButton8, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_OUTLINE_OPA,
-                                           _ui_theme_alpha_Dark);
+    lv_obj_set_style_outline_color(ui_StatusScreen_ImgButton8, lv_color_hex(0x131313), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_outline_opa(ui_StatusScreen_ImgButton8, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_outline_width(ui_StatusScreen_ImgButton8, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_outline_pad(ui_StatusScreen_ImgButton8, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     ui_object_set_themeable_style_property(ui_StatusScreen_ImgButton8, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_IMG_RECOLOR,
@@ -224,10 +226,6 @@ void ui_StatusScreen_screen_init(void) {
                                            _ui_theme_alpha_NiceWhite);
     lv_obj_set_style_text_align(ui_StatusScreen_brewVolume, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_StatusScreen_brewVolume, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_StatusScreen_dials = ui_dials_create(ui_StatusScreen);
-    lv_obj_set_x(ui_StatusScreen_dials, 0);
-    lv_obj_set_y(ui_StatusScreen_dials, 0);
 
     lv_obj_add_event_cb(ui_StatusScreen_ImgButton8, ui_event_StatusScreen_ImgButton8, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_StatusScreen_pauseButton, ui_event_StatusScreen_pauseButton, LV_EVENT_ALL, NULL);

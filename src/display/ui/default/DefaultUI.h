@@ -40,6 +40,8 @@ class DefaultUI {
         }
     };
 
+    void markDirty() { rerender = true; }
+
   private:
     void setupPanel();
     void setupState();
@@ -52,16 +54,16 @@ class DefaultUI {
 
     void adjustDials(lv_obj_t *dials);
 
-  private:
     int tempHistory[TEMP_HISTORY_LENGTH] = {0};
     int tempHistoryIndex = 0;
     int prevTargetTemp = 0;
     bool isTempHistoryInitialized = false;
-    bool isTempertureStable = false;
-    
+    int isTemperatureStable = false;
+    unsigned long lastTempLog = 0;
+
     void updateTempHistory();
     void updateTempStableFlag();
-    void switchTempBasedPanelBorderColor(lv_obj_t* contentPanel);
+    void adjustHeatingIndicator(lv_obj_t *contentPanel);
 
     Driver *panelDriver = nullptr;
     Controller *controller;
