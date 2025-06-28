@@ -577,6 +577,9 @@ void Controller::handleBrewButton(int brewButtonStatus) {
         case MODE_WATER:
             activate();
             break;
+        case MODE_STEAM:
+            deactivate();
+            setMode(MODE_BREW);
         default:
             break;
         }
@@ -603,16 +606,13 @@ void Controller::handleSteamButton(int steamButtonStatus) {
             break;
         case MODE_BREW:
             setMode(MODE_STEAM);
-            activate();
-            break;
-        case MODE_STEAM:
-            activate();
             break;
         default:
             break;
         }
     } else if (!settings.isMomentaryButtons() && getMode() == MODE_STEAM) {
         deactivate();
+        setMode(MODE_BREW);
     }
 }
 
