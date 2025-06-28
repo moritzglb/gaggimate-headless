@@ -450,7 +450,7 @@ void Controller::activate() {
                                      settings.getBrewDelay()));
         break;
     case MODE_STEAM:
-        startProcess(new SteamProcess());
+        startProcess(new SteamProcess(STEAM_SAFETY_DURATION_MS, settings.getSteamPumpPercentage()));
         break;
     case MODE_WATER:
         startProcess(new PumpProcess());
