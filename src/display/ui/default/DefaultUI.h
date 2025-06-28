@@ -14,6 +14,9 @@ class Controller;
 constexpr int RERENDER_INTERVAL_IDLE = 2500;
 constexpr int RERENDER_INTERVAL_ACTIVE = 250;
 
+constexpr int TEMP_HISTORY_INTERVAL = 250;
+constexpr int TEMP_HISTORY_LENGTH = 20 * 1000 / TEMP_HISTORY_INTERVAL;
+
 int16_t calculate_angle(int set_temp, int range, int offset);
 
 class DefaultUI {
@@ -48,6 +51,17 @@ class DefaultUI {
     void updateStatusScreen() const;
 
     void adjustDials(lv_obj_t *dials);
+
+  private:
+    int tempHistory[TEMP_HISTORY_LENGTH] = {0};
+    int tempHistoryIndex = 0;
+    int prevTargetTemp = 0;
+    bool isTempHistoryInitialized = false;
+    bool isTempertureStable = false;
+    
+    void updateTempHistory();
+    void updateTempStableFlag();
+    void switchTempBasedPanelBorderColor(lv_obj_t* contentPanel);
 
     Driver *panelDriver = nullptr;
     Controller *controller;
