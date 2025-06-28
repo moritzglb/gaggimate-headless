@@ -36,6 +36,7 @@ void ui_ProfileScreen_screen_init(void) {
                                            _ui_theme_color_NiceWhite);
     ui_object_set_themeable_style_property(ui_ProfileScreen_contentPanel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_OPA,
                                            _ui_theme_alpha_NiceWhite);
+    lv_obj_set_style_border_width(ui_ProfileScreen_contentPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ProfileScreen_mainLabel = lv_label_create(ui_ProfileScreen_contentPanel);
     lv_obj_set_width(ui_ProfileScreen_mainLabel, LV_SIZE_CONTENT);  /// 1
@@ -238,6 +239,7 @@ void ui_ProfileScreen_screen_init(void) {
     lv_obj_set_x(ui_ProfileScreen_dials, 0);
     lv_obj_set_y(ui_ProfileScreen_dials, 0);
 
+    lv_obj_add_event_cb(ui_ProfileScreen_ImgButton1, ui_event_ProfileScreen_ImgButton1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ProfileScreen_previousProfileBtn, ui_event_ProfileScreen_previousProfileBtn, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ProfileScreen_nextProfileBtn, ui_event_ProfileScreen_nextProfileBtn, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ProfileScreen_chooseButton, ui_event_ProfileScreen_chooseButton, LV_EVENT_ALL, NULL);

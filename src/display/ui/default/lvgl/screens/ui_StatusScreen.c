@@ -21,6 +21,12 @@ void ui_StatusScreen_screen_init(void) {
     lv_obj_set_x(ui_StatusScreen_ImgButton8, 0);
     lv_obj_set_y(ui_StatusScreen_ImgButton8, 210);
     lv_obj_set_align(ui_StatusScreen_ImgButton8, LV_ALIGN_CENTER);
+    ui_object_set_themeable_style_property(ui_StatusScreen_ImgButton8, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_OUTLINE_COLOR,
+                                           _ui_theme_color_Dark);
+    ui_object_set_themeable_style_property(ui_StatusScreen_ImgButton8, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_OUTLINE_OPA,
+                                           _ui_theme_alpha_Dark);
+    lv_obj_set_style_outline_width(ui_StatusScreen_ImgButton8, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_outline_pad(ui_StatusScreen_ImgButton8, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     ui_object_set_themeable_style_property(ui_StatusScreen_ImgButton8, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_IMG_RECOLOR,
                                            _ui_theme_color_NiceWhite);
     ui_object_set_themeable_style_property(ui_StatusScreen_ImgButton8, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_IMG_RECOLOR_OPA,
@@ -34,10 +40,7 @@ void ui_StatusScreen_screen_init(void) {
     lv_obj_set_style_radius(ui_StatusScreen_contentPanel2, 180, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_StatusScreen_contentPanel2, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_StatusScreen_contentPanel2, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    ui_object_set_themeable_style_property(ui_StatusScreen_contentPanel2, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_COLOR,
-                                           _ui_theme_color_NiceWhite);
-    ui_object_set_themeable_style_property(ui_StatusScreen_contentPanel2, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_OPA,
-                                           _ui_theme_alpha_NiceWhite);
+    lv_obj_set_style_border_width(ui_StatusScreen_contentPanel2, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_StatusScreen_targetDuration = lv_label_create(ui_StatusScreen_contentPanel2);
     lv_obj_set_width(ui_StatusScreen_targetDuration, 80);
@@ -226,6 +229,7 @@ void ui_StatusScreen_screen_init(void) {
     lv_obj_set_x(ui_StatusScreen_dials, 0);
     lv_obj_set_y(ui_StatusScreen_dials, 0);
 
+    lv_obj_add_event_cb(ui_StatusScreen_ImgButton8, ui_event_StatusScreen_ImgButton8, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_StatusScreen_pauseButton, ui_event_StatusScreen_pauseButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_StatusScreen, ui_event_StatusScreen, LV_EVENT_ALL, NULL);
     uic_StatusScreen_dials_tempTarget = ui_comp_get_child(ui_StatusScreen_dials, UI_COMP_DIALS_TEMPTARGET);

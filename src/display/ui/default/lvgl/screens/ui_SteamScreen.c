@@ -36,6 +36,7 @@ void ui_SteamScreen_screen_init(void) {
                                            _ui_theme_color_NiceWhite);
     ui_object_set_themeable_style_property(ui_SteamScreen_contentPanel5, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_OPA,
                                            _ui_theme_alpha_NiceWhite);
+    lv_obj_set_style_border_width(ui_SteamScreen_contentPanel5, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_SteamScreen_mainLabel5 = lv_label_create(ui_SteamScreen_contentPanel5);
     lv_obj_set_width(ui_SteamScreen_mainLabel5, LV_SIZE_CONTENT);  /// 1
@@ -122,7 +123,7 @@ void ui_SteamScreen_screen_init(void) {
     lv_obj_set_x(ui_SteamScreen_dials, 0);
     lv_obj_set_y(ui_SteamScreen_dials, 0);
 
-    lv_obj_add_event_cb(ui_SteamScreen_goButton, ui_event_SteamScreen_goButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_SteamScreen_ImgButton6, ui_event_SteamScreen_ImgButton6, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_SteamScreen_downTempButton, ui_event_SteamScreen_downTempButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_SteamScreen_upTempButton, ui_event_SteamScreen_upTempButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_SteamScreen, ui_event_SteamScreen, LV_EVENT_ALL, NULL);

@@ -20,6 +20,12 @@ void ui_BrewScreen_screen_init(void) {
     lv_obj_set_x(ui_BrewScreen_ImgButton5, 0);
     lv_obj_set_y(ui_BrewScreen_ImgButton5, 210);
     lv_obj_set_align(ui_BrewScreen_ImgButton5, LV_ALIGN_CENTER);
+    ui_object_set_themeable_style_property(ui_BrewScreen_ImgButton5, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_OUTLINE_COLOR,
+                                           _ui_theme_color_Dark);
+    ui_object_set_themeable_style_property(ui_BrewScreen_ImgButton5, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_OUTLINE_OPA,
+                                           _ui_theme_alpha_Dark);
+    lv_obj_set_style_outline_width(ui_BrewScreen_ImgButton5, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_outline_pad(ui_BrewScreen_ImgButton5, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     ui_object_set_themeable_style_property(ui_BrewScreen_ImgButton5, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_IMG_RECOLOR,
                                            _ui_theme_color_NiceWhite);
     ui_object_set_themeable_style_property(ui_BrewScreen_ImgButton5, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_IMG_RECOLOR_OPA,
@@ -37,6 +43,7 @@ void ui_BrewScreen_screen_init(void) {
                                            _ui_theme_color_NiceWhite);
     ui_object_set_themeable_style_property(ui_BrewScreen_contentPanel4, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_OPA,
                                            _ui_theme_alpha_NiceWhite);
+    lv_obj_set_style_border_width(ui_BrewScreen_contentPanel4, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_BrewScreen_mainLabel3 = lv_label_create(ui_BrewScreen_contentPanel4);
     lv_obj_set_width(ui_BrewScreen_mainLabel3, LV_SIZE_CONTENT);  /// 1
@@ -337,6 +344,7 @@ void ui_BrewScreen_screen_init(void) {
     lv_obj_set_x(ui_BrewScreen_dials, 0);
     lv_obj_set_y(ui_BrewScreen_dials, 0);
 
+    lv_obj_add_event_cb(ui_BrewScreen_ImgButton5, ui_event_BrewScreen_ImgButton5, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BrewScreen_startButton, ui_event_BrewScreen_startButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BrewScreen_timedButton, ui_event_BrewScreen_timedButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BrewScreen_volumetricButton, ui_event_BrewScreen_volumetricButton, LV_EVENT_ALL, NULL);

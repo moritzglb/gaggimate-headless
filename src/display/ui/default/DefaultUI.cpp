@@ -146,7 +146,7 @@ void DefaultUI::loop() {
             updateStatusScreen();
         effect_mgr.evaluate_all();
     }
-    
+
     lv_task_handler();
 }
 
@@ -197,7 +197,7 @@ void DefaultUI::setupPanel() {
 
     panelDriver->init();
     ui_init();
-    
+
     // Set initial brightness based on settings
     const Settings &settings = controller->getSettings();
     setBrightness(settings.getMainBrightness());
@@ -526,17 +526,16 @@ void DefaultUI::setupReactive() {
 }
 
 void DefaultUI::handleScreenChange() {
-    lv_obj_t *current = lv_scr_act(); 
+    lv_obj_t *current = lv_scr_act();
 
     if (current != *targetScreen) {
         if (*targetScreen == ui_StandbyScreen) {
             standbyEnterTime = millis();
-        }
-        else if (current == ui_StandbyScreen) {
+        } else if (current == ui_StandbyScreen) {
             const Settings &settings = controller->getSettings();
             setBrightness(settings.getMainBrightness());
         }
-        
+
         _ui_screen_change(targetScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0, targetScreenInit);
         _ui_screen_delete(&current);
         rerender = true;

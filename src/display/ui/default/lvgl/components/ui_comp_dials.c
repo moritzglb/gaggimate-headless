@@ -17,6 +17,21 @@ lv_obj_t *ui_dials_create(lv_obj_t *comp_parent) {
     lv_obj_set_align(cui_dials, LV_ALIGN_CENTER);
     lv_obj_clear_flag(cui_dials, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE); /// Flags
 
+    lv_obj_t *cui_statusPanel;
+    cui_statusPanel = lv_obj_create(cui_dials);
+    lv_obj_set_width(cui_statusPanel, 480);
+    lv_obj_set_height(cui_statusPanel, 480);
+    lv_obj_set_align(cui_statusPanel, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(cui_statusPanel, LV_OBJ_FLAG_SCROLLABLE); /// Flags
+    lv_obj_set_style_radius(cui_statusPanel, 240, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(cui_statusPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(cui_statusPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_object_set_themeable_style_property(cui_statusPanel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_COLOR,
+                                           _ui_theme_color_Heating);
+    ui_object_set_themeable_style_property(cui_statusPanel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_OPA,
+                                           _ui_theme_alpha_Heating);
+    lv_obj_set_style_border_width(cui_statusPanel, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_t *cui_tempTarget;
     cui_tempTarget = lv_img_create(cui_dials);
     lv_img_set_src(cui_tempTarget, &ui_img_indicator_png);
@@ -127,6 +142,7 @@ lv_obj_t *ui_dials_create(lv_obj_t *comp_parent) {
 
     lv_obj_t **children = lv_mem_alloc(sizeof(lv_obj_t *) * _UI_COMP_DIALS_NUM);
     children[UI_COMP_DIALS_DIALS] = cui_dials;
+    children[UI_COMP_DIALS_STATUSPANEL] = cui_statusPanel;
     children[UI_COMP_DIALS_TEMPTARGET] = cui_tempTarget;
     children[UI_COMP_DIALS_TEMPGAUGE] = cui_tempGauge;
     children[UI_COMP_DIALS_PRESSURETARGET] = cui_pressureTarget;

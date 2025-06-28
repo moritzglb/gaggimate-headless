@@ -36,6 +36,7 @@ void ui_WaterScreen_screen_init(void) {
                                            _ui_theme_color_NiceWhite);
     ui_object_set_themeable_style_property(ui_WaterScreen_contentPanel6, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_OPA,
                                            _ui_theme_alpha_NiceWhite);
+    lv_obj_set_style_border_width(ui_WaterScreen_contentPanel6, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_WaterScreen_mainLabel6 = lv_label_create(ui_WaterScreen_contentPanel6);
     lv_obj_set_width(ui_WaterScreen_mainLabel6, LV_SIZE_CONTENT);  /// 1
@@ -122,6 +123,7 @@ void ui_WaterScreen_screen_init(void) {
     lv_obj_set_x(ui_WaterScreen_dials, 0);
     lv_obj_set_y(ui_WaterScreen_dials, 0);
 
+    lv_obj_add_event_cb(ui_WaterScreen_ImgButton7, ui_event_WaterScreen_ImgButton7, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_WaterScreen_goButton, ui_event_WaterScreen_goButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_WaterScreen_downTempButton, ui_event_WaterScreen_downTempButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_WaterScreen_upTempButton, ui_event_WaterScreen_upTempButton, LV_EVENT_ALL, NULL);

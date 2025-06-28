@@ -36,6 +36,7 @@ void ui_GrindScreen_screen_init(void) {
                                            _ui_theme_color_NiceWhite);
     ui_object_set_themeable_style_property(ui_GrindScreen_contentPanel7, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_BORDER_OPA,
                                            _ui_theme_alpha_NiceWhite);
+    lv_obj_set_style_border_width(ui_GrindScreen_contentPanel7, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_GrindScreen_mainLabel7 = lv_label_create(ui_GrindScreen_contentPanel7);
     lv_obj_set_width(ui_GrindScreen_mainLabel7, LV_SIZE_CONTENT);  /// 1
@@ -193,6 +194,7 @@ void ui_GrindScreen_screen_init(void) {
     lv_obj_set_x(ui_GrindScreen_dials, 0);
     lv_obj_set_y(ui_GrindScreen_dials, 0);
 
+    lv_obj_add_event_cb(ui_GrindScreen_ImgButton2, ui_event_GrindScreen_ImgButton2, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_GrindScreen_startButton, ui_event_GrindScreen_startButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_GrindScreen_upDurationButton, ui_event_GrindScreen_upDurationButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_GrindScreen_downDurationButton, ui_event_GrindScreen_downDurationButton, LV_EVENT_ALL, NULL);
