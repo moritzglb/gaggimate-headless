@@ -42,6 +42,7 @@ convert "raindrops.svg" 80
 convert "raindrops.svg" 40
 convert "wifi.svg" 20
 convert "wind.svg" 80
+convert "wind.svg" 40
 convert "clock.svg" 40
 convert "thermometer-half.svg" 40
 convert "refresh.svg" 20

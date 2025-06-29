@@ -207,12 +207,21 @@ void Controller::loop() {
     }
 
     if (now - lastProgress > PROGRESS_INTERVAL) {
+        // Check if steam is ready
+        if (mode == MODE_STEAM && !steamReady && currentTemp + 5 > getTargetTemp()) {
+            activate();
+            steamReady = true;
+        }
+
+        // Handle current process
         if (currentProcess != nullptr) {
             currentProcess->progress();
             if (!isActive()) {
                 deactivate();
             }
         }
+
+        // Handle last process - Calculate auto delay
         if (lastProcess != nullptr && !lastProcess->isComplete()) {
             lastProcess->progress();
         }
@@ -522,6 +531,7 @@ bool Controller::isGrindActive() const { return isActive() && currentProcess->ge
 int Controller::getMode() const { return mode; }
 
 void Controller::setMode(int newMode) {
+    steamReady = false;
     Event modeEvent = pluginManager->trigger("controller:mode:change", "value", newMode);
     mode = modeEvent.getInt("value");
 

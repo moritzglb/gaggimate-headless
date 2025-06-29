@@ -61,6 +61,7 @@ void onGrindTimeLower(lv_event_t *e) { controller.lowerGrindTarget(); }
 void onGrindTimeRaise(lv_event_t *e) { controller.raiseGrindTarget(); }
 
 void onMenuClick(lv_event_t *e) {
+    controller.deactivate();
     controller.setMode(MODE_BREW);
     controller.getUI()->changeScreen(&ui_MenuScreen, &ui_MenuScreen_screen_init);
 }
@@ -90,4 +91,8 @@ void onProfileSelect(lv_event_t *e) { controller.getUI()->onProfileSwitch(); }
 
 void onFlush(lv_event_t *e) { controller.onFlush(); }
 
-void onSimpleProcessToggle(lv_event_t *e) { controller.isActive() ? controller.deactivate() : controller.activate(); }
+void onSimpleProcessToggle(lv_event_t *e) {
+    if (controller.getMode() != MODE_STEAM) {
+        controller.isActive() ? controller.deactivate() : controller.activate();
+    }
+}

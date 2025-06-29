@@ -53,6 +53,8 @@ class DefaultUI {
     void updateStatusScreen() const;
 
     void adjustDials(lv_obj_t *dials);
+    void adjustTempTarget(lv_obj_t *dials);
+    void adjustTarget(lv_obj_t *obj, double percentage, double start, double range) const;
 
     int tempHistory[TEMP_HISTORY_LENGTH] = {0};
     int tempHistoryIndex = 0;
@@ -96,6 +98,7 @@ class DefaultUI {
     int pressureAvailable = 0;
     float pressure = 0.0f;
     int pressureScaling = DEFAULT_PRESSURE_SCALING;
+    int heatingFlash = 0;
 
     int currentProfileIdx;
     String currentProfileId;
