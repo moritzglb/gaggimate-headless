@@ -39,7 +39,7 @@ class HydraulicParameterEstimator {
     float epsilon = 1e-12f;
     int counter;
 
-    bool isValid(float x) { return (x == x) && (x - x == 0) && fabs(x) < 1e30f; }
+    bool isValid(float x) { return fabs(x) < 1e30f; }
 };
 
 #endif
