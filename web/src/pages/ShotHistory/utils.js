@@ -30,10 +30,8 @@ export function parseHistoryData(shot) {
 
   if (data['samples']) {
     const lastSample = data['samples'][data['samples'].length - 1];
-    data['meta'] = {
-      duration: lastSample.t,
-      weight: lastSample.v || lastSample.ev
-    };
+    data.duration = lastSample.t;
+    data.volume = lastSample.v;
   }
   return data;
 }

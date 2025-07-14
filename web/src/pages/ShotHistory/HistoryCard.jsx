@@ -44,12 +44,12 @@ export default function HistoryCard({ shot, onDelete }) {
       <div className="flex flex-row gap-6 items-center">
         <div className="flex flex-row gap-2 items-center">
           <span className="fa fa-clock"></span>
-          {(shot.meta.duration / 1000).toFixed(1)}s
+          {(shot.duration / 1000).toFixed(1)}s
         </div>
-        {shot.meta.weight && (
+        {shot.weight && (
           <div className="flex flex-row gap-2 items-center">
             <span className="fa fa-scale-balanced"></span>
-            {shot.meta.weight}g
+            {shot.volume}g
           </div>
         )}
       </div>

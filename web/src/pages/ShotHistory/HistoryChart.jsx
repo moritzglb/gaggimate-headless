@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { Chart } from 'chart.js';
 
-function getChartData(data, end) {
+function getChartData(data) {
   let start = 0;
   return {
     type: 'line',
@@ -98,7 +98,7 @@ export function HistoryChart({shot}) {
   console.log(shot);
   const [chart, setChart] = useState(null);
   const ref = useRef();
-  const chartData = getChartData(shot.samples, shot.meta.duration / 1000);
+  const chartData = getChartData(shot.samples);
   useEffect(() => {
     const ct = new Chart(ref.current, chartData);
     setChart(ct);
@@ -107,7 +107,7 @@ export function HistoryChart({shot}) {
     if (!chart) {
       return;
     }
-    const cd = getChartData(shot.samples, shot.meta.duration / 1000);
+    const cd = getChartData(shot.samples);
     chart.data = cd.data;
     chart.options = cd.options;
     chart.update();
