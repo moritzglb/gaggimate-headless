@@ -21,7 +21,7 @@ void Controller::setup() {
     mode = settings.getStartupMode();
 
     if (!SPIFFS.begin(true)) {
-        Serial.println(F("An Error has occurred while mounting LittleFS"));
+        Serial.println(F("An Error has occurred while mounting SPIFFS"));
     }
 
     pluginManager = new PluginManager();
@@ -81,13 +81,16 @@ void Controller::connect() {
 
 void Controller::setupBluetooth() {
     clientController.initClient();
-    clientController.registerSensorCallback([this](const float temp, const float pressure, const float flow) {
-        onTempRead(temp);
-        this->pressure = pressure;
-        this->currentFlow = flow;
-        pluginManager->trigger("boiler:pressure:change", "value", pressure);
-        pluginManager->trigger("pump:flow:change", "value", flow);
-    });
+    clientController.registerSensorCallback(
+        [this](const float temp, const float pressure, const float puckFlow, const float pumpFlow) {
+            onTempRead(temp);
+            this->pressure = pressure;
+            this->currentPuckFlow = puckFlow;
+            this->currentPumpFlow = pumpFlow;
+            pluginManager->trigger("boiler:pressure:change", "value", pressure);
+            pluginManager->trigger("pump:puck-flow:change", "value", puckFlow);
+            pluginManager->trigger("pump:flow:change", "value", pumpFlow);
+        });
     clientController.registerBrewBtnCallback([this](const int brewButtonStatus) { handleBrewButton(brewButtonStatus); });
     clientController.registerSteamBtnCallback([this](const int steamButtonStatus) { handleSteamButton(steamButtonStatus); });
     clientController.registerRemoteErrorCallback([this](const int error) {
@@ -109,7 +112,7 @@ void Controller::setupBluetooth() {
     });
     clientController.registerVolumetricMeasurementCallback([this](const float value) {
         if (!volumetricOverride) {
-            onVolumetricMeasurement(value);
+            onVolumetricMeasurement(value, VolumetricMeasurementSource::FLOW_ESTIMATION);
         }
     });
     pluginManager->trigger("controller:bluetooth:init");
@@ -566,8 +569,11 @@ void Controller::onOTAUpdate() {
     updating = true;
 }
 
-void Controller::onVolumetricMeasurement(double measurement) {
-    estimatedWeight = measurement;
+void Controller::onVolumetricMeasurement(double measurement, VolumetricMeasurementSource source) {
+    pluginManager->trigger(source == VolumetricMeasurementSource::FLOW_ESTIMATION
+                               ? F("controller:volumetric-measurement:estimation:change")
+                               : F("controller:volumetric-measurement:bluetooth:change"),
+                           "value", static_cast<float>(measurement));
     if (currentProcess != nullptr) {
         currentProcess->updateVolume(measurement);
     }

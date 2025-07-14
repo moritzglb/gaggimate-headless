@@ -64,7 +64,7 @@ void WebUIPlugin::loop() {
         doc["ct"] = controller->getCurrentTemp();
         doc["tt"] = controller->getTargetTemp();
         doc["pr"] = controller->getCurrentPressure();
-        doc["fl"] = controller->getCurrentFlow();
+        doc["fl"] = controller->getCurrentPuckFlow();
         doc["pt"] = controller->getTargetPressure();
         doc["m"] = controller->getMode();
         doc["p"] = controller->getProfileManager()->getSelectedProfile().label;
