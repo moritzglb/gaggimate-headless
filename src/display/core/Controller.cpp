@@ -55,7 +55,7 @@ void Controller::setup() {
 
     pluginManager->on("profiles:profile:select", [this](Event const &event) { this->handleProfileUpdate(); });
 
-    ui->init();
+    // ui->init();
 
     xTaskCreatePinnedToCore(loopTask, "DefaultUI::loopControl", configMINIMAL_STACK_SIZE * 6, this, 1, &taskHandle, 1);
 }
@@ -186,9 +186,9 @@ void Controller::setupWifi() {
 void Controller::loop() {
     pluginManager->loop();
 
-    if (screenReady) {
-        connect();
-    }
+    // if (screenReady) {
+    //     connect();
+    // }
 
     if (clientController.isReadyForConnection()) {
         clientController.connectToServer();
