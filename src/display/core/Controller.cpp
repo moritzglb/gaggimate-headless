@@ -189,6 +189,7 @@ void Controller::loop() {
     // if (screenReady) {
     //     connect();
     // }
+    connect();
 
     if (clientController.isReadyForConnection()) {
         clientController.connectToServer();
