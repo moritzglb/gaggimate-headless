@@ -1,5 +1,5 @@
 {
-  "name": "GaggiMate Display",
+  "name": "gaggimate-headless Display",
   "version": "nightly",
   "funding_url": "https://ko-fi.com/jniebuhr",
   "new_install_prompt_erase": false,
@@ -7,11 +7,11 @@
     {
       "chipFamily": "ESP32-S3",
       "parts": [
-        { "path": "/gaggimate/nightly/display-bootloader.bin", "offset": 0 },
-        { "path": "/gaggimate/nightly/display-partitions.bin", "offset": 32768 },
-        { "path": "/gaggimate/boot_app0.bin", "offset": 57344 },
-        { "path": "/gaggimate/nightly/display-firmware.bin", "offset": 65536 },
-        { "path": "/gaggimate/nightly/display-filesystem.bin", "offset": 13172736 }
+        { "path": "/gaggimate-headless/nightly/display-bootloader.bin", "offset": 0 },
+        { "path": "/gaggimate-headless/nightly/display-partitions.bin", "offset": 32768 },
+        { "path": "/gaggimate-headless/boot_app0.bin", "offset": 57344 },
+        { "path": "/gaggimate-headless/nightly/display-firmware.bin", "offset": 65536 },
+        { "path": "/gaggimate-headless/nightly/display-filesystem.bin", "offset": 13172736 }
       ]
     }
   ]
