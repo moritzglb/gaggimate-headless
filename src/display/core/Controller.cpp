@@ -18,6 +18,12 @@
 const String LOG_TAG = F("Controller");
 
 void Controller::setup() {
+
+    Serial.begin(115200);
+
+    Serial.setDebugOutput(true);  // Enable debug output for Serial
+    Serial.println(F("GaggiMate Standard 1.x Controller starting..."));
+
     mode = settings.getStartupMode();
 
     if (!SPIFFS.begin(true)) {
@@ -185,7 +191,10 @@ void Controller::setupWifi() {
 
 void Controller::loop() {
     pluginManager->loop();
-
+    
+    Serial.print("Status: ");
+    Serial.println(mode);
+    
     // if (screenReady) {
     //     connect();
     // }
