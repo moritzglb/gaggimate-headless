@@ -1,8 +1,4 @@
-on:
-  workflow_dispatch
-  push:
-    branches:
-      - "master"
+on: workflow_dispatch
 
 permissions:
   contents: write
