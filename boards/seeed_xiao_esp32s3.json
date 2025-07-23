@@ -8,23 +8,26 @@
     "core": "esp32",
     "extra_flags": [
       "-DSEEED_XIAO_ESP32S3",
-      "-DBOARD_HAS_PSRAM"
-    ],
-    "f_cpu": "240000000L",
-    "f_flash": "80000000L",
-    "flash_mode": "qio",
-    "psram_type": "opi",
-    "hwids": [["0x303A", "0x1001"]],
-    "mcu": "esp32s3",
-    "variant": "esp32s3"
-  },
-  "connectivity": ["wifi", "bluetooth"],
-  "debug": {
-    "default_tool": "esp-builtin",
-    "onboard_tools": ["esp-builtin"],
-    "openocd_target": "esp32s3.cfg"
-  },
-  "frameworks": ["arduino", "espidf"],
+        "-DARDUINO_USB_MODE=1",
+        "-DARDUINO_RUNNING_CORE=0",
+        "-DARDUINO_EVENT_RUNNING_CORE=0",
+        "-DBOARD_HAS_PSRAM"
+      ],
+      "f_cpu": "240000000L",
+      "f_flash": "80000000L",
+      "flash_mode": "qio",
+      "psram_type": "opi",
+      "hwids": [["0x303A", "0x1001"]],
+      "mcu": "esp32s3",
+      "variant": "esp32s3"
+    },
+    "connectivity": ["wifi", "bluetooth"],
+    "debug": {
+      "default_tool": "esp-builtin",
+      "onboard_tools": ["esp-builtin"],
+      "openocd_target": "esp32s3.cfg"
+    },
+    "frameworks": ["arduino", "espidf"],
   "name": "Seeed Studio XIAO ESP32S3 (8M Flash 8M PSRAM)",
   "upload": {
     "flash_size": "8MB",
@@ -33,6 +36,6 @@
     "require_upload_port": true,
     "speed": 921600
   },
-  "url": "https://www.seeedstudio.com/Seeed-XIAO-ESP32S3-p-5635.html",
+  "url": "https://jp.seeedstudio.com/XIAO-ESP32S3-p-5627.html?___store=jp",
   "vendor": "Seeed Studio"
 }
