@@ -1,5 +1,5 @@
 {
-  "name": "GaggiMate Controller",
+  "name": "gaggimate-headless Controller",
   "version": "nightly",
   "funding_url": "https://ko-fi.com/jniebuhr",
   "new_install_prompt_erase": false,
@@ -7,10 +7,10 @@
     {
       "chipFamily": "ESP32-S3",
       "parts": [
-        { "path": "/gaggimate/nightly/board-bootloader.bin", "offset": 0 },
-        { "path": "/gaggimate/nightly/board-partitions.bin", "offset": 32768 },
-        { "path": "/gaggimate/boot_app0.bin", "offset": 57344 },
-        { "path": "/gaggimate/nightly/board-firmware.bin", "offset": 65536 }
+        { "path": "/gaggimate-headless/nightly/board-bootloader.bin", "offset": 0 },
+        { "path": "/gaggimate-headless/nightly/board-partitions.bin", "offset": 32768 },
+        { "path": "/gaggimate-headless/boot_app0.bin", "offset": 57344 },
+        { "path": "/gaggimate-headless/nightly/board-firmware.bin", "offset": 65536 }
       ]
     }
   ]
