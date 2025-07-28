@@ -61,7 +61,7 @@ void Controller::setup() {
 
     pluginManager->on("profiles:profile:select", [this](Event const &event) { this->handleProfileUpdate(); });
 
-    // ui->init();
+    ui->init();
 
     xTaskCreatePinnedToCore(loopTask, "DefaultUI::loopControl", configMINIMAL_STACK_SIZE * 6, this, 1, &taskHandle, 1);
 }
@@ -83,6 +83,7 @@ void Controller::connect() {
 
     updateLastAction();
     initialized = true;
+    Serial.println(F("Controller initialized successfully."));
 }
 
 void Controller::setupBluetooth() {
@@ -192,13 +193,11 @@ void Controller::setupWifi() {
 void Controller::loop() {
     pluginManager->loop();
     
-    Serial.print("Status: ");
-    Serial.println(mode);
+    Serial.println(F("Starting loop"));
     
-    // if (screenReady) {
-    //     connect();
-    // }
     connect();
+
+    Serial.println(F("Connection triggered"))
 
     if (clientController.isReadyForConnection()) {
         clientController.connectToServer();
@@ -224,6 +223,7 @@ void Controller::loop() {
     }
 
     if (isErrorState()) {
+        Serial.println(F("Error state detected"));
         return;
     }
 
