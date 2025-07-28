@@ -36,6 +36,7 @@ void Controller::setup() {
     pluginManager = new PluginManager();
     profileManager = new ProfileManager(SPIFFS, "/p", settings, pluginManager);
     profileManager->setup();
+    
     ui = new DefaultUI(this, pluginManager);
     if (settings.isHomekit())
         pluginManager->registerPlugin(new HomekitPlugin(settings.getWifiSsid(), settings.getWifiPassword()));
@@ -64,9 +65,7 @@ void Controller::setup() {
 
     pluginManager->on("profiles:profile:select", [this](Event const &event) { this->handleProfileUpdate(); });
 
-    ui->init();
-    delay(1000);  // Give time for the UI to initialize
-    screenReady = true;
+    // ui->init();
 
     digitalWrite(LED_BUILTIN, HIGH); // Turn on the LED if this spot is reached
     delay(100); // Delay to visualize the LED state change
@@ -207,11 +206,9 @@ void Controller::loop() {
     
     Serial.println(F("Core/Controller loop entered"));
 
-    if (screenReady) {
-        connect();
-    }
+    connect();
 
-    Serial.println(F("Connection triggered"))
+    Serial.println(F("Connection triggered"));
 
     if (clientController.isReadyForConnection()) {
         clientController.connectToServer();
