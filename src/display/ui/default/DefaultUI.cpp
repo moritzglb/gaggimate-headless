@@ -7,6 +7,7 @@
 #include <display/core/zones.h>
 #include <display/drivers/LilyGoDriver.h>
 #include <display/drivers/WaveshareDriver.h>
+#include <display/drivers/LilyGoTDisplayDriver.h>
 #include <display/drivers/common/LV_Helper.h>
 #include <display/ui/default/lvgl/ui_theme_manager.h>
 #include <display/ui/default/lvgl/ui_themes.h>
@@ -263,12 +264,18 @@ void DefaultUI::onProfileSelect() {
 }
 
 void DefaultUI::setupPanel() {
-    if (LilyGoDriver::getInstance()->isCompatible()) {
+    if (LilyGoTDisplayDriver::getInstance()->isCompatible()) {
+        panelDriver = LilyGoTDisplayDriver::getInstance();
+    } else if (LilyGoDriver::getInstance()->isCompatible()) {
         panelDriver = LilyGoDriver::getInstance();
     } else if (WaveshareDriver::getInstance()->isCompatible()) {
         panelDriver = WaveshareDriver::getInstance();
     }
-
+    else {
+        Serial.println("No compatible display driver found");
+        delay(10000);
+        ESP.restart();
+    }
     panelDriver->init();
     ui_init();
 
@@ -664,7 +671,7 @@ void DefaultUI::updateStatusScreen() const {
     lv_img_set_src(ui_StatusScreen_Image8, brewProcess->target == ProcessTarget::TIME ? &ui_img_360122106 : &ui_img_1424216268);
 
     if (brewProcess->isAdvancedPump()) {
-        float pressure = brewProcess->getPumpTargetPressure();
+        float pressure = brewProcess->getPumpPressure();
         const double percentage = 1.0 - static_cast<double>(pressure) / static_cast<double>(pressureScaling);
         adjustTarget(uic_StatusScreen_dials_pressureTarget, percentage, -62.0, 124.0);
     } else {
