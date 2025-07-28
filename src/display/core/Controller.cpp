@@ -205,9 +205,7 @@ void Controller::loop() {
     pluginManager->loop();
     
     Serial.println(F("Core/Controller loop entered"));
-
     connect();
-
     Serial.println(F("Connection triggered"));
 
     if (clientController.isReadyForConnection()) {
