@@ -21,6 +21,9 @@ void Controller::setup() {
 
     Serial.begin(115200);
 
+    pinMode(LED_BUILTIN, OUTPUT); // Initialize the built-in LED
+    digitalWrite(LED_BUILTIN, LOW); // Turn off the LED initially
+
     Serial.setDebugOutput(true);  // Enable debug output for Serial
     Serial.println(F("GaggiMate Standard 1.x Controller starting..."));
 
@@ -64,8 +67,15 @@ void Controller::setup() {
     ui->init();
     delay(1000);  // Give time for the UI to initialize
     screenReady = true;
+
+    digitalWrite(LED_BUILTIN, HIGH); // Turn on the LED if this spot is reached
+    delay(100); // Delay to visualize the LED state change
+    digitalWrite(LED_BUILTIN, LOW); // Turn off the LED
+    delay(100); // Delay to visualize the LED state change
     
     xTaskCreatePinnedToCore(loopTask, "DefaultUI::loopControl", configMINIMAL_STACK_SIZE * 6, this, 1, &taskHandle, 1);
+
+    Serial.println(F("Core/Controller setup completed"));
 }
 
 void Controller::onScreenReady() { screenReady = true; }
@@ -195,7 +205,7 @@ void Controller::setupWifi() {
 void Controller::loop() {
     pluginManager->loop();
     
-    Serial.println(F("Starting loop"));
+    Serial.println(F("Core/Controller loop entered"));
 
     if (screenReady) {
         connect();
@@ -271,6 +281,8 @@ void Controller::loop() {
         deactivateGrind();
     if (mode != MODE_STANDBY && now > lastAction + settings.getStandbyTimeout())
         activateStandby();
+    
+    Serial.println(F("Core/Controller loop finished"));
 }
 
 void Controller::loopControl() {
