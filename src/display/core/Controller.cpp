@@ -62,7 +62,9 @@ void Controller::setup() {
     pluginManager->on("profiles:profile:select", [this](Event const &event) { this->handleProfileUpdate(); });
 
     ui->init();
-
+    delay(1000);  // Give time for the UI to initialize
+    screenReady = true;
+    
     xTaskCreatePinnedToCore(loopTask, "DefaultUI::loopControl", configMINIMAL_STACK_SIZE * 6, this, 1, &taskHandle, 1);
 }
 
@@ -194,8 +196,10 @@ void Controller::loop() {
     pluginManager->loop();
     
     Serial.println(F("Starting loop"));
-    
-    connect();
+
+    if (screenReady) {
+        connect();
+    }
 
     Serial.println(F("Connection triggered"))
 
