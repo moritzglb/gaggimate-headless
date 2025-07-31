@@ -70,6 +70,37 @@ void WebUIPlugin::loop() {
         doc["p"] = controller->getProfileManager()->getSelectedProfile().label;
         doc["cp"] = controller->getSystemInfo().capabilities.pressure;
         doc["cd"] = controller->getSystemInfo().capabilities.dimming;
+        doc["bt"] = controller->isVolumetricAvailable() && controller->getSettings().isVolumetricTarget() ? 1 : 0;
+        doc["led"] = controller->getSystemInfo().capabilities.ledControl;
+
+        Process *process = controller->getProcess();
+        if (process == nullptr) {
+            process = controller->getLastProcess();
+        }
+        if (process != nullptr) {
+            JsonObject pObj = doc.createNestedObject("process");
+            pObj["a"] = controller->isActive() ? 1 : 0;
+            if (process->getType() == MODE_BREW) {
+                auto *brew = static_cast<BrewProcess *>(process);
+                unsigned long ts = millis();
+                if (!brew->isActive()) {
+                    ts = brew->finished;
+                }
+                pObj["s"] = brew->currentPhase.phase == PhaseType::PHASE_TYPE_BREW ? "brew" : "infusion";
+                pObj["l"] = brew->isActive() ? brew->currentPhase.name.c_str() : "Finished";
+                pObj["e"] = ts - brew->processStarted;
+                pObj["tt"] = brew->target == ProcessTarget::TIME ? "time" : "volumetric";
+                if (brew->target == ProcessTarget::VOLUMETRIC && brew->currentPhase.hasVolumetricTarget()) {
+                    Target t = brew->currentPhase.getVolumetricTarget();
+                    pObj["pt"] = t.value;
+                    pObj["pp"] = brew->currentVolume;
+                } else {
+                    pObj["pt"] = brew->getPhaseDuration();
+                    pObj["pp"] = ts - brew->currentPhaseStarted;
+                }
+            }
+        }
+
         ws.textAll(doc.as<String>());
     }
     if (now > lastCleanup + CLEANUP_PERIOD) {
@@ -139,6 +170,23 @@ void WebUIPlugin::setupServer() {
                                 handleOTAStart(client->id(), doc);
                             } else if (msgType == "req:autotune-start") {
                                 handleAutotuneStart(client->id(), doc);
+                            } else if (msgType == "req:process:activate") {
+                                controller->activate();
+                            } else if (msgType == "req:process:deactivate") {
+                                controller->deactivate();
+                            } else if (msgType == "req:process:clear") {
+                                controller->clear();
+                            } else if (msgType == "req:change-mode") {
+                                if (doc["mode"].is<uint8_t>()) {
+                                    auto mode = doc["mode"].as<uint8_t>();
+                                    controller->deactivate();
+                                    controller->setMode(mode);
+                                }
+                            } else if (msgType == "req:change-brew-target") {
+                                if (doc["target"].is<uint8_t>()) {
+                                    auto target = doc["target"].as<uint8_t>();
+                                    controller->getSettings().setVolumetricTarget(target);
+                                }
                             } else if (msgType.startsWith("req:history")) {
                                 JsonDocument resp;
                                 ShotHistory.handleRequest(doc, resp);
@@ -323,6 +371,20 @@ void WebUIPlugin::handleSettings(AsyncWebServerRequest *request) const {
                 settings->setSteamPumpPercentage(request->arg("steamPumpPercentage").toFloat());
             if (request->hasArg("themeMode"))
                 settings->setThemeMode(request->arg("themeMode").toInt());
+            if (request->hasArg("sunriseR"))
+                settings->setSunriseR(request->arg("sunriseR").toInt());
+            if (request->hasArg("sunriseG"))
+                settings->setSunriseG(request->arg("sunriseG").toInt());
+            if (request->hasArg("sunriseB"))
+                settings->setSunriseB(request->arg("sunriseB").toInt());
+            if (request->hasArg("sunriseW"))
+                settings->setSunriseW(request->arg("sunriseW").toInt());
+            if (request->hasArg("sunriseExtBrightness"))
+                settings->setSunriseExtBrightness(request->arg("sunriseExtBrightness").toInt());
+            if (request->hasArg("emptyTankDistance"))
+                settings->setEmptyTankDistance(request->arg("emptyTankDistance").toInt());
+            if (request->hasArg("fullTankDistance"))
+                settings->setFullTankDistance(request->arg("fullTankDistance").toInt());
             settings->save(true);
         });
         controller->setTargetTemp(controller->getTargetTemp());
@@ -364,6 +426,13 @@ void WebUIPlugin::handleSettings(AsyncWebServerRequest *request) const {
     doc["standbyBrightnessTimeout"] = settings.getStandbyBrightnessTimeout() / 1000;
     doc["steamPumpPercentage"] = settings.getSteamPumpPercentage();
     doc["themeMode"] = settings.getThemeMode();
+    doc["sunriseR"] = settings.getSunriseR();
+    doc["sunriseG"] = settings.getSunriseG();
+    doc["sunriseB"] = settings.getSunriseB();
+    doc["sunriseW"] = settings.getSunriseW();
+    doc["sunriseExtBrightness"] = settings.getSunriseExtBrightness();
+    doc["emptyTankDistance"] = settings.getEmptyTankDistance();
+    doc["fullTankDistance"] = settings.getFullTankDistance();
     serializeJson(doc, *response);
     request->send(response);
 

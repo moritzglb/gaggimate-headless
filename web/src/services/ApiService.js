@@ -138,12 +138,12 @@ export default class ApiService {
   }
 
   on(type, listener) {
-    //const id = randomId();
+    const id = randomId();
     if (!this.listeners[type]) {
       this.listeners[type] = {};
     }
-    this.listeners[type][randomId()] = listener;
-    return randomId();
+    this.listeners[type][id] = listener;
+    return id;
   }
 
   off(type, id) {
@@ -159,8 +159,12 @@ export default class ApiService {
       currentFlow: message.fl,
       mode: message.m,
       selectedProfile: message.p,
+      brewTarget: message.bt || 0,
+      process: message.process || null,
       timestamp: new Date(),
     };
+    const historyEntry = { ...newStatus };
+    delete historyEntry.process;
     const newValue = {
       ...machine.value,
       connected: true,
@@ -172,8 +176,9 @@ export default class ApiService {
         ...machine.value.capabilities,
         dimming: message.cd,
         pressure: message.cp,
+        ledControl: message.led,
       },
-      history: [...machine.value.history, newStatus],
+      history: [...machine.value.history, historyEntry],
     };
     newValue.history = newValue.history.slice(-600);
     machine.value = newValue;
@@ -189,6 +194,7 @@ export const machine = signal({
     targetTemperature: 0,
     mode: 0,
     selectedProfile: '',
+    process: null,
   },
   capabilities: {
     pressure: false,

@@ -9,6 +9,7 @@
 #include <display/plugins/BLEScalePlugin.h>
 #include <display/plugins/BoilerFillPlugin.h>
 #include <display/plugins/HomekitPlugin.h>
+#include <display/plugins/LedControlPlugin.h>
 #include <display/plugins/MQTTPlugin.h>
 #include <display/plugins/ShotHistoryPlugin.h>
 #include <display/plugins/SmartGrindPlugin.h>
@@ -18,12 +19,6 @@
 const String LOG_TAG = F("Controller");
 
 void Controller::setup() {
-
-    Serial.begin(115200);
-
-    Serial.setDebugOutput(true);  // Enable debug output for Serial
-    Serial.println(F("GaggiMate Standard 1.x Controller starting..."));
-
     mode = settings.getStartupMode();
 
     if (!SPIFFS.begin(true)) {
@@ -33,8 +28,9 @@ void Controller::setup() {
     pluginManager = new PluginManager();
     profileManager = new ProfileManager(SPIFFS, "/p", settings, pluginManager);
     profileManager->setup();
-    
+#ifndef GAGGIMATE_HEADLESS
     ui = new DefaultUI(this, pluginManager);
+#endif
     if (settings.isHomekit())
         pluginManager->registerPlugin(new HomekitPlugin(settings.getWifiSsid(), settings.getWifiPassword()));
     else
@@ -51,6 +47,7 @@ void Controller::setup() {
     pluginManager->registerPlugin(new WebUIPlugin());
     pluginManager->registerPlugin(&ShotHistory);
     pluginManager->registerPlugin(&BLEScales);
+    pluginManager->registerPlugin(new LedControlPlugin());
     pluginManager->setup(this);
 
     pluginManager->on("profiles:profile:save", [this](Event const &event) {
@@ -62,10 +59,13 @@ void Controller::setup() {
 
     pluginManager->on("profiles:profile:select", [this](Event const &event) { this->handleProfileUpdate(); });
 
-    // ui->init();
-    
-    xTaskCreatePinnedToCore(loopTask, "DefaultUI::loopControl", configMINIMAL_STACK_SIZE * 6, this, 1, &taskHandle, 1);
+#ifndef GAGGIMATE_HEADLESS
+    ui->init();
+#else
+    this->onScreenReady();
+#endif
 
+    xTaskCreatePinnedToCore(loopTask, "Controller::loopControl", configMINIMAL_STACK_SIZE * 6, this, 1, &taskHandle, 1);
 }
 
 void Controller::onScreenReady() { screenReady = true; }
@@ -85,7 +85,6 @@ void Controller::connect() {
 
     updateLastAction();
     initialized = true;
-    Serial.println(F("Controller initialized successfully."));
 }
 
 void Controller::setupBluetooth() {
@@ -124,6 +123,11 @@ void Controller::setupBluetooth() {
             onVolumetricMeasurement(value, VolumetricMeasurementSource::FLOW_ESTIMATION);
         }
     });
+    clientController.registerTofMeasurementCallback([this](const int value) {
+        tofDistance = value;
+        ESP_LOGV(LOG_TAG, "Received new TOF distance: %d", value);
+        pluginManager->trigger("controller:tof:change", "value", value);
+    });
     pluginManager->trigger("controller:bluetooth:init");
 }
 
@@ -142,6 +146,8 @@ void Controller::setupInfos() {
                                 .capabilities = SystemCapabilities{
                                     .dimming = doc["cp"]["dm"].as<bool>(),
                                     .pressure = doc["cp"]["ps"].as<bool>(),
+                                    .ledControl = doc["cp"]["led"].as<bool>(),
+                                    .tof = doc["cp"]["tof"].as<bool>(),
                                 }};
     }
 }
@@ -194,8 +200,10 @@ void Controller::setupWifi() {
 
 void Controller::loop() {
     pluginManager->loop();
-    
-    connect();
+
+    if (screenReady) {
+        connect();
+    }
 
     if (clientController.isReadyForConnection()) {
         clientController.connectToServer();
@@ -221,7 +229,6 @@ void Controller::loop() {
     }
 
     if (isErrorState()) {
-        Serial.println(F("Error state detected"));
         return;
     }
 
